@@ -1,14 +1,53 @@
 <head>
-  <title>smerge</title>
+  <title>Smerge - The multisocial platform</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
+  <h1>Welcome to smerge.me!</h1>
+	  {{> customLogin}}
+  
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+
+
+<template name="customLogin">
+	{{#if userLoggedIn}}
+		{{>userMenu}}
+	{{else}}
+		{{>registerOrLogin}}
+	{{/if}}
+	
+</template>
+
+<template name="userMenu">
+	<h2>Welcome {{currentUser.username}}</h2>
+	<a href="#" id="signOutButton">signout</a>
+</template>
+
+<template name="registerOrLogin">
+	<span id="loginTab">Login</span> | <span id="registerTab">Register</span>
+	{{#if showLogin}}
+		{{>login}}
+	{{else}}
+		{{>register}}
+	{{/if}}
+</template>
+
+<template name="register">
+	<form>
+			<input type="text" name="registerUsername" placeholder="Username">
+			<input type="email" name="registerEmail" placeholder="Email">
+			<input type="password" name="registerPassword" placeholder="Password">
+			<input type="submit" value="Register">
+	</form>
+	{{failed}}
+</template>
+
+<template name="login">
+	<form>
+			<input type="text" name="loginUsernameOrEmail" placeholder="Username or Email">
+			<input type="password" name="loginPassword" placeholder="Password">
+			<input type="submit" value="Login">
+    </form>
+		{{failed}}
 </template>
