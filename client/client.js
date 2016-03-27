@@ -1,17 +1,67 @@
-if (Meteor.isClient) {
 	Session.setDefault("showLogin", true);
 	Session.setDefault("loginFailed", false);
 	Session.setDefault("registerFailed", false);
+	Session.setDefault("facebookExpires", null);
+	Session.setDefault("twitterConnected", false);
+	
+	Tracker.autorun(function () {
+    Meteor.subscribe("twitterFeed");
+});
+	
+	Accounts.onLogin(function(){
+		Meteor.call("facebookCheck", function (error,result) {
+			if(!error)
+				Session.set("facebookExpires",result);
+		});
+		
+		Meteor.call("twitterCheck", function (error,result) {
+			if(!error)
+				Session.set("twitterConnected",result);
+		});
+	});
+	
 	Accounts.ui.config({
 		passwordSignupFields: 'USERNAME_AND_EMAIL',
 	});
 	
-	Template.customLogin.helpers({
-		userLoggedIn: function(){return Meteor.userId();},
+	Template.userMenu.events({
+		"click #signOutButton": function(event){
+			event.preventDefault();
+			Meteor.logout();
+		},
+		"click #connectFacebookButton": function(event){
+			event.preventDefault();
+			Meteor.linkWithFacebook();
+		},
+		"click #disconnectFacebookButton": function(event){
+			event.preventDefault();
+			Meteor.call("disconnectFacebook", function(error,response){if(!error)Session.set("facebookExpires",null)});
+		},
+		"click #connectTwitterButton": function(event){
+			event.preventDefault();
+			Meteor.linkWithTwitter();
+		},
+		"click #disconnectTwitterButton": function(event){
+			event.preventDefault();
+			//Meteor.call("disconnectTwitter", function(error,response){if(!error)Session.set("twitterConnected",false)});
+			Meteor.call("fetchTweets");
+		},
 	});
 	
-	Template.userMenu.events({
-		"click #signOutButton": function(event){event.preventDefault();Meteor.logout();},
+	Template.feed.helpers({
+		tweets: function() {
+			console.log(Accounts.user());
+			return (Accounts.user()&&Accounts.user().twitterFeed)?Accounts.user().twitterFeed:[];
+		}
+	})
+	
+	Template.userMenu.helpers({
+		facebook: function(){
+			return new Date() < new Date(Session.get("facebookExpires"));
+		},
+		twitter: function(){
+			return Session.get("twitterConnected");
+		}
 	});
 	
 	Template.registerOrLogin.helpers({
@@ -70,13 +120,3 @@ if (Meteor.isClient) {
 	Template.register.helpers({
 		failed: function(){return Session.get("registerFailed");}
 	})
-	
-}
-
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
-	
-	
-}

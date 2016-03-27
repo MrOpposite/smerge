@@ -4,14 +4,16 @@
 
 <body>
   <h1>Welcome to smerge.me!</h1>
-	  {{> customLogin}}
-  
+	{{> customLogin}}
+  {{#if currentUser}}
+	{{> feed}}
+	{{/if}}
 </body>
 
 
 
 <template name="customLogin">
-	{{#if userLoggedIn}}
+	{{#if currentUser}}
 		{{>userMenu}}
 	{{else}}
 		{{>registerOrLogin}}
@@ -21,7 +23,11 @@
 
 <template name="userMenu">
 	<h2>Welcome {{currentUser.username}}</h2>
-	<a href="#" id="signOutButton">signout</a>
+	<ul>
+	<li>{{#if facebook}} <span id="disconnectFacebookButton">Disconnect from Facebook</span> {{else}} <span id="connectFacebookButton">Connect to Facebook</span> {{/if}}</li>
+	<li>{{#if twitter}} <span id="disconnectTwitterButton">Disconnect from Twitter</span> {{else}} <span id="connectTwitterButton">Connect to Twitter</span> {{/if}}</li>
+	<li><a href="#" id="signOutButton">signout</a></li>
+	</ul>
 </template>
 
 <template name="registerOrLogin">
@@ -50,4 +56,16 @@
 			<input type="submit" value="Login">
     </form>
 		{{failed}}
+</template>
+
+<template name="feed">
+	<div id="feed">
+		<ul>
+			{{#each tweet in tweets}}
+			<li><img src="{{tweet.user.profile_image_url}}" /><span class="entryBody">{{tweet.text}}</span></li>
+			{{else}}
+			<li>no tweets</li>
+			{{/each}}
+		</ul>
+	</div>
 </template>
