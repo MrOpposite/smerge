@@ -3,11 +3,13 @@
 </head>
 
 <body>
+	<div class="container">
   <h1>Welcome to smerge.me!</h1>
 	{{> customLogin}}
   {{#if currentUser}}
 	{{> feed}}
 	{{/if}}
+	</div>
 </body>
 
 
@@ -60,12 +62,16 @@
 
 <template name="feed">
 	<div id="feed">
-		<ul>
-			{{#each tweet in tweets}}
-			<li><img src="{{tweet.user.profile_image_url}}" /><span class="entryBody">{{tweet.text}}</span></li>
-			{{else}}
-			<li>no tweets</li>
-			{{/each}}
-		</ul>
+		{{#each tweet in tweets}}
+		<div class=row>
+			<div class="one column"><img class="entryProfile" src="{{tweet.user.profile_image_url}}" /></div>
+			<div class="eleven columns">
+				<h5 class="entryPoster">{{tweet.user.name}}</h5>
+				<span class="entryBody">{{tweet.text}}</span>
+			</div>
+		</div>
+		{{else}}
+		<span>no tweets</span>
+		{{/each}}
 	</div>
 </template>

@@ -1,0 +1,23 @@
+/* CSS declarations go here */
+#feed h5 {
+	font-size: 1em;
+	font-weight: bold;
+	margin-bottom: 0.1em;
+}
+
+#feed .row {
+	padding: 0.4em;
+	margin-bottom: 0.4em;
+	border-radius: 0.4em;
+	background: #B397DC;
+}
+
+
+#feed .entryProfile {
+	height: 5em;
+	display: block;
+}
+
+body {
+	background-color: #6D44A9;
+}
