@@ -20,7 +20,7 @@
 	{{else}}
 		{{>registerOrLogin}}
 	{{/if}}
-	
+
 </template>
 
 <template name="userMenu">
@@ -62,16 +62,16 @@
 
 <template name="feed">
 	<div id="feed">
-		{{#each tweet in tweets}}
+		{{#each entry in entries}}
 		<div class=row>
-			<div class="one column"><img class="entryProfile" src="{{tweet.user.profile_image_url}}" /></div>
+			<div class="one column"><img class="entryThumb" src="{{entry.thumbUrl}}" /></div>
 			<div class="eleven columns">
-				<h5 class="entryPoster">{{tweet.user.name}}</h5>
-				<span class="entryBody">{{tweet.text}}</span>
+				<h5 class="entryPoster">{{entry.poster.name}}</h5>
+				<span class="entryBody">{{entry.text}}</span>
 			</div>
 		</div>
 		{{else}}
-		<span>no tweets</span>
+		<span>no entries</span>
 		{{/each}}
 	</div>
 </template>

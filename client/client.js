@@ -5,14 +5,14 @@ Session.setDefault("loginFailed", false);
 Session.setDefault("registerFailed", false);
 Session.setDefault("facebookExpires", null);
 Session.setDefault("twitterConnected", false);
+Session.setDefault("feedList", false);
 
 Tracker.autorun(function () {
-	
 	Meteor.call("facebookCheck", function (error,result) {
 		if(!error)
 			Session.set("facebookExpires",result);
 	});
-	
+
 	Meteor.call("twitterCheck", function (error,result) {
 		if(!error)
 			Session.set("twitterConnected",result);
@@ -24,11 +24,11 @@ Accounts.onLogin(function(){
 		if(!error)
 			Session.set("facebookExpires",result);
 	});
-	
+
 	Meteor.call("twitterCheck", function (error,result) {
 		if(!error) {
 			Session.set("twitterConnected",result);
-			
+
 			notifications.on('tweets-'+Accounts.userId(), function(message, time) {
 			var completeMessage = message;
 			console.log(completeMessage);
@@ -66,9 +66,9 @@ Template.userMenu.events({
 });
 
 Template.feed.helpers({
-	tweets: function() {
-		console.log(Accounts.user());
-		return (Accounts.user()&&Accounts.user().twitterFeed)?Accounts.user().twitterFeed:[];
+	entries: function() {
+		console.log(Session.get('feedList'));
+		return Session.get('feedList');
 	}
 })
 
