@@ -1,0 +1,25 @@
+{
+  "name": "smerge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrOpposite/smerge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrOpposite/smerge/issues"
+  },
+  "homepage": "https://github.com/MrOpposite/smerge",
+  "dependencies": {
+    "meteor-node-stubs": "^0.2.1",
+    "moment": "^2.12.0",
+    "net": "^1.0.2",
+    "reddit-oauth": "^1.0.8"
+  }
+}

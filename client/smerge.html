@@ -5,9 +5,9 @@
 <body>
 	<div class="container">
   <h1>Welcome to smerge.me!</h1>
-	{{> customLogin}}
+	{{> loginButtons}}
   {{#if currentUser}}
-	{{> feed}}
+	{{> feedStream}}
 	{{/if}}
 	</div>
 </body>
@@ -28,6 +28,7 @@
 	<ul>
 	<li>{{#if facebook}} <span id="disconnectFacebookButton">Disconnect from Facebook</span> {{else}} <span id="connectFacebookButton">Connect to Facebook</span> {{/if}}</li>
 	<li>{{#if twitter}} <span id="disconnectTwitterButton">Disconnect from Twitter</span> {{else}} <span id="connectTwitterButton">Connect to Twitter</span> {{/if}}</li>
+  <li>{{#if reddit}} <span id="disconnectRedditButton">Disconnect from Reddit</span> {{else}} <span id="connectRedditButton">Connect to Reddit</span> {{/if}}</li>
 	<li><a href="#" id="signOutButton">signout</a></li>
 	</ul>
 </template>
@@ -58,20 +59,4 @@
 			<input type="submit" value="Login">
     </form>
 		{{failed}}
-</template>
-
-<template name="feed">
-	<div id="feed">
-		{{#each entry in entries}}
-		<div class=row>
-			<div class="one column"><img class="entryThumb" src="{{entry.thumbUrl}}" /></div>
-			<div class="eleven columns">
-				<h5 class="entryPoster">{{entry.poster.name}}</h5>
-				<span class="entryBody">{{entry.text}}</span>
-			</div>
-		</div>
-		{{else}}
-		<span>no entries</span>
-		{{/each}}
-	</div>
 </template>

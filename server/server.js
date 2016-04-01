@@ -1,6 +1,5 @@
 Meteor.startup(function () {
 	// code to run on server at startup
-	
 });
 
 Meteor.methods({
@@ -28,6 +27,10 @@ Meteor.methods({
 	},
 	disconnectTwitter: function() {
 		Accounts.unlinkService(Meteor.userId(),"twitter");
+		Twit = null;
+	},
+	disconnectReddit: function() {
+		Accounts.unlinkService(Meteor.userId(),"reddit");
 		Twit = null;
 	},
 })

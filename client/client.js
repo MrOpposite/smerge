@@ -1,3 +1,4 @@
+RedditAPI = require('reddit-oauth');
 notifications = new Meteor.Stream('server-notifications');
 
 Session.setDefault("showLogin", true);
@@ -8,6 +9,12 @@ Session.setDefault("twitterConnected", false);
 Session.setDefault("feedList", false);
 
 Tracker.autorun(function () {
+	Accounts.ui.config({
+		requestPermissions: {
+			reddit: ['identity','read'],
+		},
+	});
+
 	Meteor.call("facebookCheck", function (error,result) {
 		if(!error)
 			Session.set("facebookExpires",result);
@@ -60,17 +67,17 @@ Template.userMenu.events({
 	},
 	"click #disconnectTwitterButton": function(event){
 		event.preventDefault();
-		//Meteor.call("disconnectTwitter", function(error,response){if(!error)Session.set("twitterConnected",false)});
-		Meteor.call("fetchTweets");
+		Meteor.call("disconnectTwitter", function(error,response){if(!error)Session.set("twitterConnected",false)});
+	},
+	"click #connectRedditButton": function(event){
+		event.preventDefault();
+		Meteor.linkWithReddit(function(err,msg,ext){console.log([err,msg,ext])});
+	},
+	"click #disconnectRedditButton": function(event){
+		event.preventDefault();
+		Meteor.call("disconnectReddit", function(error,response){if(!error)Session.set("twitterConnected",false)});
 	},
 });
-
-Template.feed.helpers({
-	entries: function() {
-		console.log(Session.get('feedList'));
-		return Session.get('feedList');
-	}
-})
 
 Template.userMenu.helpers({
 	facebook: function(){
